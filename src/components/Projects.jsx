@@ -6,28 +6,28 @@ const projects = [
         description: 'An interactive 3D vehicle garage built with React and Three.js, featuring several 3D vehicles with the ability to rotate 360 degrees and change colors.',
         tags: ['React', 'Three.js', '3D Models'],
         link: 'https://github.com/kavinda9210/3Dmodels',
-        image: '/public/3D Vehicle Garage.PNG'
+        image: '/3D Vehicle Garage.PNG'
     },
     {
         title: '3D Vehicle Management System',
         description: 'A vehicle management system using React Three.js for the frontend and Laravel with MySQL on the backend to manage second-hand vehicles.',
         tags: ['React', 'Three.js', 'Laravel', 'MySQL'],
         link: 'https://github.com/kavinda9210/vehicle-management-system',
-        image: '/public/vevicle.PNG'
+        image: '/vevicle.PNG'
     },
     {
         title: 'Tile Management System',
         description: 'A complete tile inventory management system built with PHP and MySQL for tracking and maintaining tile stock, sales, and customer records.',
         tags: ['PHP', 'MySQL', 'CRUD'],
         link: 'https://github.com/kavinda9210/tile-management-system',
-        image: '/public/tile.PNG'
+        image: '/tile.PNG'
     },
     {
         title: 'AI Chatbot for Car Rental System',
         description: 'A chatbot built using React and OpenAI API for assisting users in a car rental system, answering queries, and handling user interactions intelligently.',
         tags: ['React', 'OpenAI API', 'Chatbot'],
         link: 'https://github.com/kavinda9210/chat',
-        image: '/public/chat.PNG'
+        image: '/chat.PNG'
     },
     {
         title: 'Student Management System (CRUD)',
@@ -41,7 +41,7 @@ const projects = [
         description: 'A full-stack web application built using Angular and Laravel API for managing pharmacy operations. Features include medicine inventory, sales tracking, supplier management, and billing.',
         tags: ['Angular', 'Laravel', 'REST API', 'Inventory', 'Pharmacy'],
         link: 'https://github.com/kavinda9210/Pharmacy-management-System',
-        image: '/public/phamacy.PNG'
+        image: '/phamacy.PNG'
     }
 
 
