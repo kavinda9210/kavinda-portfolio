@@ -65,9 +65,16 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <h4 className="font-medium">Phone</h4>
-                                    <p>0771519979</p>
-                                    <p>0750359262 (WhatsApp)</p>
+                                    <p>
+                                        <a href="tel:0771519979">0771519979</a>
+                                    </p>
+                                    <p>
+                                        <a href="https://wa.me/94750359262" target="_blank" rel="noopener noreferrer">
+                                            0750359262 (WhatsApp)
+                                        </a>
+                                    </p>
                                 </div>
+
                             </div>
 
                             <div className="flex items-start gap-4">
@@ -78,7 +85,7 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <h4 className="font-medium">Email</h4>
-                                    <p>kavindarupasingha9210.com</p>
+                                    <a href="mailto:kavindarupasingha9210@gmail.com">kavindarupasingha9210@gmail.com</a>
                                 </div>
                             </div>
 
