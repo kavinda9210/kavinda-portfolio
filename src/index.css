@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+@layer base {
+  @font-face {
+    font-family: "aeonik";
+    src: url("/fonts/Aeonik-Light.ttf") format("truetype");
+    font-weight: 300;
+    font-style: normal;
+
+  }
+
+  @font-face {
+    font-family: "aeonik";
+    src: url("/fonts/Aeonik-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+
+  }
+
+  @font-face {
+    font-family: "aeonik";
+    src: url("/fonts/Aeonik-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+
+  }
+
+  @font-face {
+    font-family: "aeonik";
+    src: url("/fonts/Aeonik-Black.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+
+  }
+}
+
+@layer components {}
+
+@layer utilities {
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+}
+
+@theme {
+  --font-sans: "aeonik";
+  --color-blue-50: #598eff;
+  --color-blue-300: #1c34ff;
+  --color-white-50: #fdfdfd;
+  --color-black-100: #0b0620;
+  --color-black-300: #0b0620;
+  --color-pink-100: #ff28d5;
+  --color-primary: #a7a7a7;
+}
+
+html,
+body {
+  width: 100dvw;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  background-color: var(--color-black-100);
+  color: var(--color-primary);
+}
+
+section {
+  width: 100dvw;
+  min-height: 100dvh;
+
+}
+
+:root,
+.light {
+  --color-bg: var(--color-white-50);
+  --color-text: var(--color-black-100);
+  --color-primary: #333;
+  --color-secondary: #666;
+}
+
+.dark {
+  --color-bg: var(--color-black-100);
+  --color-text: var(--color-white-50);
+  --color-primary: #a7a7a7;
+  --color-secondary: #888;
+}
+
+html,
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Typing animation styles */
+.typing-text {
+  line-height: 1.6;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.typing-cursor {
+  animation: blink 1s step-end infinite;
+  color: var(--color-blue-50);
+}
+
+@keyframes blink {
+
+  from,
+  to {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
