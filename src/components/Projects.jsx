@@ -34,7 +34,7 @@ const projects = [
         description: 'A simple full-stack application built with Angular and Laravel API to manage student records. It allows adding, updating, viewing, and deleting student data with a user-friendly interface.',
         tags: ['Angular', 'Laravel', 'REST API', 'CRUD'],
         link: 'https://github.com/kavinda9210/AngularCrudWithLaravelApi',
-        image: '/public/homepage.PNG'
+        image: '/homepage.PNG'
     },
     {
         title: 'Pharmacy Management System',
