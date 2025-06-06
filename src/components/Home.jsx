@@ -3,7 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF, useFBX } from '@react-three/drei';
 import * as THREE from 'three';
 
-const Avatar = ({ scale }) => {
+const Avatar = () => {
     const group = useRef();
     const { scene } = useGLTF('/6842e8ae0b840e845502dfaf.glb');
     const talkingAnimation = useFBX('/Talking.fbx');
@@ -52,7 +52,7 @@ const Avatar = ({ scale }) => {
         <group ref={group} dispose={null}>
             <primitive
                 object={scene}
-                scale={scale}
+                scale={[2.2, 2.2, 2.2]}
                 position={[0, -1.5, 0]}
                 rotation={[0, 0, 0]}
             />
@@ -72,8 +72,6 @@ const AvatarCanvas = () => {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    const avatarScale = isMobile ? [2.7, 2.7, 2.7] : [2.2, 2.2, 2.2];
-
     return (
         <div
             className="w-full h-[28rem] md:w-[28rem] md:h-[36rem] relative"
@@ -92,7 +90,7 @@ const AvatarCanvas = () => {
                 <directionalLight position={[2, 5, 5]} intensity={1.2} />
                 <hemisphereLight intensity={0.5} />
                 <Suspense fallback={null}>
-                    <Avatar scale={avatarScale} />
+                    <Avatar />
                 </Suspense>
                 {!isMobile && (
                     <OrbitControls
