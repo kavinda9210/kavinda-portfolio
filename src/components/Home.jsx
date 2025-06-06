@@ -1,8 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, useGLTF, useFBX } from '@react-three/drei';
 import * as THREE from 'three';
-import { useGLTF, useFBX } from '@react-three/drei';
 
 const Avatar = () => {
     const group = useRef();
@@ -89,32 +88,22 @@ const AvatarCanvas = () => {
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
-        const checkScreen = () => {
-            setIsMobile(window.innerWidth <= 768);
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
         };
-
-        checkScreen();
-        window.addEventListener('resize', checkScreen);
-        return () => window.removeEventListener('resize', checkScreen);
-    }, []);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            if (canvasRef.current) {
-                canvasRef.current.style.transform = 'translate3d(0,0,0)';
-            }
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
     return (
         <div
             ref={canvasRef}
-            className="w-[28rem] h-[36rem] relative"
+            className="w-full md:w-[28rem] h-[28rem] md:h-[36rem] relative"
             style={{
                 transform: 'translate3d(0,0,0)',
                 willChange: 'transform',
+                overflow: 'hidden',
             }}
         >
             <Canvas
@@ -126,15 +115,14 @@ const AvatarCanvas = () => {
                     position: 'absolute',
                     top: 0,
                     left: 0,
+                    touchAction: 'none',
                 }}
             >
                 <ambientLight intensity={0.8} />
                 <directionalLight position={[2, 5, 5]} intensity={1.2} />
                 <directionalLight position={[-2, 3, 3]} intensity={0.6} />
                 <hemisphereLight groundColor="#404040" color="#a0a0a0" intensity={0.5} />
-
                 <Avatar />
-
                 {!isMobile && (
                     <OrbitControls
                         enableZoom={false}
@@ -149,4 +137,70 @@ const AvatarCanvas = () => {
     );
 };
 
-export default AvatarCanvas;
+const Home = () => {
+    const handleDownloadCV = () => {
+        const cvUrl = '/KavinadaRupasinghaCV.pdf';
+        const link = document.createElement('a');
+        link.href = cvUrl;
+        link.download = 'KavinadaRupasinghaCV.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const [displayText, setDisplayText] = useState('');
+    const fullText =
+        "I'm a dedicated Full Stack Developer skilled in building responsive, scalable web applications using React, Node.js, Laravel, MySQL, and MongoDB. I prioritize clean code, secure APIs, and user experience, consistently delivering high-quality solutions in agile, collaborative development environments.";
+
+    useEffect(() => {
+        let i = 0;
+        const typingSpeed = 15;
+        const typingEffect = setInterval(() => {
+            if (i < fullText.length) {
+                setDisplayText(fullText.substring(0, i + 1));
+                i++;
+            } else {
+                clearInterval(typingEffect);
+            }
+        }, typingSpeed);
+
+        return () => clearInterval(typingEffect);
+    }, []);
+
+    return (
+        <section id="home" className="flex-center flex-col pt-20">
+            <div className="container mx-auto px-4 py-16 flex flex-col md:flex-row items-center justify-between">
+                <div className="md:w-1/2 mb-8 md:mb-0">
+                    <h1 className="text-4xl md:text-6xl font-bold mb-4">
+                        Hi, I'm <span className="text-blue-50">Kavinda Rupasingha</span>
+                    </h1>
+                    <h2 className="text-2xl md:text-3xl mb-6">
+                        <span className="text-pink-100">Full Stack Developer</span>
+                    </h2>
+                    <div className="text-lg mb-8 max-w-lg text-justify">
+                        <p className="typing-text" style={{ minHeight: '144px' }}>
+                            {displayText}
+                            <span className="typing-cursor">|</span>
+                        </p>
+                    </div>
+                    <div className="flex gap-4 flex-wrap">
+                        <a href="#contact" className="px-6 py-3 bg-blue-50 text-black-100 rounded-lg font-medium hover:bg-blue-300 transition-colors">
+                            Contact Me
+                        </a>
+                        <a href="#projects" className="px-6 py-3 border border-blue-50 rounded-lg font-medium hover:bg-white/10 transition-colors">
+                            View Work
+                        </a>
+                        <button onClick={handleDownloadCV} className="px-6 py-3 border border-pink-100 text-pink-100 rounded-lg font-medium hover:bg-pink-100/10 transition-colors">
+                            Download CV
+                        </button>
+                    </div>
+                </div>
+                <div className="md:w-1/2 flex-center">
+                    <AvatarCanvas />
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default Home;
