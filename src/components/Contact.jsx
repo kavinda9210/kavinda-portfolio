@@ -46,7 +46,7 @@ const Contact = () => {
                             <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-blue-50/30 mb-4">
                                 {/* Replace with your actual profile photo */}
                                 <img
-                                    src="/public/profile.PNG"
+                                    src="/profile.PNG"
                                     alt="Profile"
                                     className="w-full h-full object-cover"
                                 />
