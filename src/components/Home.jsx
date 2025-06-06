@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF, useFBX } from '@react-three/drei';
 import * as THREE from 'three';
@@ -13,54 +13,31 @@ const Avatar = () => {
         if (!group.current) return;
 
         const mixer = new THREE.AnimationMixer(group.current);
-        let actions = [];
-        let activeAction;
-        let lastAction;
+        const actions = [];
 
         if (talkingAnimation.animations.length) {
-            const action = mixer.clipAction(talkingAnimation.animations[0]);
-            action.loop = THREE.LoopRepeat;
-            actions.push(action);
+            actions.push(mixer.clipAction(talkingAnimation.animations[0]));
+        }
+        if (talkingAnimation1.animations.length) {
+            actions.push(mixer.clipAction(talkingAnimation1.animations[0]));
         }
 
-        if (talkingAnimation1.animations.length) {
-            const action = mixer.clipAction(talkingAnimation1.animations[0]);
-            action.loop = THREE.LoopRepeat;
-            actions.push(action);
-        }
+        let activeAction = actions[0];
+        if (activeAction) activeAction.play();
 
         const switchAnimation = () => {
-            if (actions.length === 0) return;
-
-            lastAction = activeAction;
-
-            let nextAction;
-            if (actions.length > 1) {
-                const otherActions = actions.filter(a => a !== activeAction);
-                nextAction = otherActions[Math.floor(Math.random() * otherActions.length)];
-            } else {
-                nextAction = actions[0];
+            const next = actions[Math.floor(Math.random() * actions.length)];
+            if (activeAction !== next) {
+                activeAction?.fadeOut(0.5);
+                next.reset().fadeIn(0.5).play();
+                activeAction = next;
             }
-
-            activeAction = nextAction;
-
-            if (lastAction) {
-                lastAction.fadeOut(0.5);
-            }
-            activeAction.reset().fadeIn(0.5).play();
         };
 
-        if (actions.length > 0) {
-            activeAction = actions[0];
-            activeAction.play();
-        }
-
-        const interval = setInterval(switchAnimation, 5000 + Math.random() * 5000);
-
+        const interval = setInterval(switchAnimation, 4000 + Math.random() * 4000);
         const clock = new THREE.Clock();
         const animate = () => {
-            const delta = clock.getDelta();
-            mixer.update(delta);
+            mixer.update(clock.getDelta());
             requestAnimationFrame(animate);
         };
         animate();
@@ -84,7 +61,6 @@ const Avatar = () => {
 };
 
 const AvatarCanvas = () => {
-    const canvasRef = useRef();
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
@@ -98,8 +74,7 @@ const AvatarCanvas = () => {
 
     return (
         <div
-            ref={canvasRef}
-            className="w-full md:w-[28rem] h-[28rem] md:h-[36rem] relative"
+            className="w-full h-[28rem] md:w-[28rem] md:h-[36rem] relative"
             style={{
                 transform: 'translate3d(0,0,0)',
                 willChange: 'transform',
@@ -108,28 +83,22 @@ const AvatarCanvas = () => {
         >
             <Canvas
                 camera={{ position: [0, 2.5, 7], fov: 45 }}
-                gl={{ preserveDrawingBuffer: true, antialias: true }}
-                style={{
-                    width: '100%',
-                    height: '100%',
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    touchAction: 'none',
-                }}
+                gl={{ preserveDrawingBuffer: true }}
+                style={{ width: '100%', height: '100%' }}
             >
                 <ambientLight intensity={0.8} />
                 <directionalLight position={[2, 5, 5]} intensity={1.2} />
-                <directionalLight position={[-2, 3, 3]} intensity={0.6} />
-                <hemisphereLight groundColor="#404040" color="#a0a0a0" intensity={0.5} />
-                <Avatar />
+                <hemisphereLight intensity={0.5} />
+                <Suspense fallback={null}>
+                    <Avatar />
+                </Suspense>
                 {!isMobile && (
                     <OrbitControls
                         enableZoom={false}
                         enablePan={false}
+                        enableRotate={true}
                         maxPolarAngle={Math.PI / 1.9}
                         minPolarAngle={Math.PI / 2.3}
-                        enableRotate={true}
                     />
                 )}
             </Canvas>
@@ -139,13 +108,10 @@ const AvatarCanvas = () => {
 
 const Home = () => {
     const handleDownloadCV = () => {
-        const cvUrl = '/KavinadaRupasinghaCV.pdf';
         const link = document.createElement('a');
-        link.href = cvUrl;
+        link.href = '/KavinadaRupasinghaCV.pdf';
         link.download = 'KavinadaRupasinghaCV.pdf';
-        document.body.appendChild(link);
         link.click();
-        document.body.removeChild(link);
     };
 
     const [displayText, setDisplayText] = useState('');
@@ -163,7 +129,6 @@ const Home = () => {
                 clearInterval(typingEffect);
             }
         }, typingSpeed);
-
         return () => clearInterval(typingEffect);
     }, []);
 
@@ -195,7 +160,7 @@ const Home = () => {
                         </button>
                     </div>
                 </div>
-                <div className="md:w-1/2 flex-center">
+                <div className="md:w-1/2 w-full">
                     <AvatarCanvas />
                 </div>
             </div>
